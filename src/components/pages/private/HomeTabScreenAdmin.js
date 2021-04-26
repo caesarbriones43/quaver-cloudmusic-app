@@ -1,17 +1,17 @@
 import * as React from "react";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import PlayingScreen from "../public/PlayingScreen";
+import HomeScreen from "../public/HomeScreen";
+import DiscoverMusicScreen from "../public/DiscoverMusicScreen";
+import ManageScreen from "./ManageScreen";
 
 //Tab Screens
 //Public
-import HomeScreen from "./HomeScreen";
-import PlayingScreen from "./PlayingScreen";
-import DiscoverMusicScreen from "./DiscoverMusicScreen";
-import ManageScreen from "../private/ManageScreen";
 
 const Tab = createBottomTabNavigator();
 
-const HomeTabScreen = () => {
+const HomeTabScreenAdmin = () => {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -44,9 +44,9 @@ const HomeTabScreen = () => {
       <Tab.Screen name="Play" component={PlayingScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Discover Music" component={DiscoverMusicScreen} />
-      {/* <Tab.Screen name="Manage" component={ManageScreen} /> */}
+      <Tab.Screen name="Manage" component={ManageScreen} />
     </Tab.Navigator>
   );
 };
 
-export default HomeTabScreen;
+export default HomeTabScreenAdmin;
