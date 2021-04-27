@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useReducer, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,75 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 
+import axios from "axios";
+
 export default function LoginScreen({ navigation }) {
+  const [users, setUsers] = useState({});
+
+  const initialState = [
+    {
+      email: "",
+      password: "",
+    },
+  ];
+
+  const reducer = (state, action) => {
+    switch (action.type) {
+      case "login":
+        authUser(state);
+        console.log("state como argumento a auth", state);
+        console.log("state:", state);
+        console.log("action:", action.payload);
+        return action.payload;
+      default:
+        throw new Error();
+    }
+  };
+
+  const authUser = async (state) => {
+    const { email, password } = state;
+    await axios({
+      method: "get",
+      url: `http://192.168.1.80:5000/api/v1/users?email=${email}&password=${password}`,
+    })
+      .then((response) => {
+        setUsers(response.data.data);
+        // console.log("password como argumento:", password);
+        // console.log("email como argumento:", email);
+        {
+          if (
+            state.email === response.data.data[0].email &&
+            state.password === response.data.data[0].password
+          ) {
+            console.log("---USUARIO LOGEADO--");
+            console.log(response.data.data[0].email);
+            console.log(response.data.data[0].password);
+            console.log("admin:", users[0].admin);
+          } else {
+            console.log("CREDENCIALES NO VALIDAS!");
+          }
+        }
+      })
+      .catch((error) => {
+        console.log("Error Login", error);
+      });
+  };
+
+  const handleLogin = (loginCredentials) => {
+    const action = {
+      type: "login",
+      payload: loginCredentials,
+    };
+    dispatch(action);
+  };
+
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // console.log("email antes de entrar al if", state.email);
+  // console.log("email antes de entrar al if", users[0].email);
+  // console.log("password antes de entrar al if", state.password);
+  // console.log("password antes de entrar al if", users[0].password);
+
   return (
     <View style={styles.container}>
       <View style={styles.bigCircle}></View>
@@ -46,7 +114,17 @@ export default function LoginScreen({ navigation }) {
             style={styles.loginButton}
             onPress={() => navigation.navigate("HomeTabScreen")}
           >
-            <Text style={styles.loginButtonText}>Sign in</Text>
+            <Text
+              style={styles.loginButtonText}
+              onPress={() =>
+                handleLogin({
+                  password: "1234",
+                  email: "caesar@gmail.com",
+                })
+              }
+            >
+              Sign in
+            </Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => navigation.navigate("RegisterScreen")}
