@@ -10,7 +10,7 @@ import LoginScreen from "./src/components/pages/public/LoginScreen";
 import RegisterScreen from "./src/components/pages/public/RegisterScreen";
 import HomeTabScreenAdmin from "./src/components/pages/private/HomeTabScreenAdmin";
 import ManageUsersScreen from "./src/components/pages/private/ManageUsersScreen";
-import ManageAlbumsScreen from "./src/components/pages/private/ManageAlbumsScreen";
+import MangeUserScreen from "./src/components/pages/private/MangeUserScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,8 +27,15 @@ export default function App() {
           <Stack.Screen name="HomeTabScreen" component={HomeTabScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
-          <Stack.Screen name="HomeTabScreenAdmin" component={HomeTabScreenAdmin} />
-          <Stack.Screen name="ManageUsersScreen" component={ManageUsersScreen} />
+          <Stack.Screen
+            name="HomeTabScreenAdmin"
+            component={HomeTabScreenAdmin}
+          />
+          <Stack.Screen
+            name="ManageUsersScreen"
+            component={ManageUsersScreen}
+          />
+          <Stack.Screen name="MangeUserScreen" component={MangeUserScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Fragment>

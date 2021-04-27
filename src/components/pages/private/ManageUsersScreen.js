@@ -12,7 +12,7 @@ import { ScrollView } from "react-native";
 
 import { quaverApi } from "../../../api/quaverApi";
 
-const ManageUsersScreen = ({ navigation: { goBack } }) => {
+const ManageUsersScreen = ({ navigation }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -38,15 +38,20 @@ const ManageUsersScreen = ({ navigation: { goBack } }) => {
                 name="arrow-back-outline"
                 type="ionicon"
                 color="#fff"
-                onPress={() => goBack()}
+                // onPress={() => goBack()}
               />
             }
             centerComponent={{ text: "Manage Users", style: { color: "#fff" } }}
           />
-
           <View style={{ flex: 1 }}>
             {users.map((user) => (
-              <ListItem key={user._id} bottomDivider>
+              <ListItem
+                key={user._id}
+                bottomDivider
+                onPress={() => {
+                  navigation.navigate("MangeUserScreen", { user: user });
+                }}
+              >
                 <Avatar source={{ uri: user.avatar }} />
                 <ListItem.Content>
                   <ListItem.Title>{user.name}</ListItem.Title>
