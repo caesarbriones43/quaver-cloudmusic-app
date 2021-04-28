@@ -67,7 +67,12 @@ const ManageScreen = ({ navigation }) => {
             <View
               style={{ paddingBottom: 15, paddingRight: 15, paddingLeft: 15 }}
             >
-              <Button title="Genres" />
+              <Button
+                title="Genres"
+                onPress={() => {
+                  navigation.navigate("ManageGenresScreen");
+                }}
+              />
             </View>
           </View>
         </ScrollView>

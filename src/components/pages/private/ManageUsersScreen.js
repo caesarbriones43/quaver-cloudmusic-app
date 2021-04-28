@@ -5,7 +5,6 @@ import {
   ListItem,
   Avatar,
   Icon,
-  SearchBar,
   Header,
 } from "react-native-elements";
 import { ScrollView } from "react-native";

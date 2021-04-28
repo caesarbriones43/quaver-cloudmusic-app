@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  StyleSheet,
+} from "react-native";
 import {
   Header,
   Icon,
@@ -212,30 +218,64 @@ const MangeUserScreen = ({
               flexDirection: "row",
               padding: 10,
             }}
+          ></View>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.appButtonContainer}
+            onPress={() => {
+              updateUserById(_id, state);
+            }}
           >
-            <Button
-              onPress={() => toggleOverlayDelete()}
-              title="Delete User"
-              buttonStyle={{
-                backgroundColor: "red",
-              }}
-              icon={<Icon name="trash-outline" type="ionicon" color="#fff" />}
-            />
-            <View style={{ width: 10, height: 10 }}></View>
-            <Button
-              icon={
-                <Icon type="ionicon" name="create" size={24} color="white" />
-              }
-              title="Submit"
+            <Text style={styles.appButton}>Edit</Text>
+          </TouchableOpacity>
+          <View style={styles.appButtonSpace}></View>
+          <TouchableOpacity
+            style={styles.appButtonContainerDelete}
+            onPress={() => {
+              deleteGenreById(_id);
+            }}
+          >
+            <Text
+              style={styles.appButton}
               onPress={() => {
-                toggleOverlay();
+                deleteUserById(_id);
               }}
-            />
-          </View>
+            >
+              Delete
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  appButtonContainerDelete: {
+    elevation: 8,
+    backgroundColor: "#b20000",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  appButton: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  appButtonSpace: {
+    padding: 5,
+  },
+});
 
 export default MangeUserScreen;

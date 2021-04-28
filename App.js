@@ -11,6 +11,8 @@ import RegisterScreen from "./src/components/pages/public/RegisterScreen";
 import HomeTabScreenAdmin from "./src/components/pages/private/HomeTabScreenAdmin";
 import ManageUsersScreen from "./src/components/pages/private/ManageUsersScreen";
 import MangeUserScreen from "./src/components/pages/private/MangeUserScreen";
+import ManageGenresScreen from "./src/components/pages/private/ManageGenresScreen";
+import ManageGenreScreen from "./src/components/pages/private/ManageGenreScreen";
 
 const Stack = createStackNavigator();
 
@@ -36,6 +38,14 @@ export default function App() {
             component={ManageUsersScreen}
           />
           <Stack.Screen name="MangeUserScreen" component={MangeUserScreen} />
+          <Stack.Screen
+            name="ManageGenresScreen"
+            component={ManageGenresScreen}
+          />
+          <Stack.Screen
+            name="ManageGenreScreen"
+            component={ManageGenreScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Fragment>
