@@ -9,74 +9,101 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 
+import { Tooltip } from "react-native-elements";
+
 import axios from "axios";
 
 export default function LoginScreen({ navigation }) {
-  const [users, setUsers] = useState({});
-
-  const initialState = [
-    {
-      email: "",
-      password: "",
-    },
-  ];
-
-  const reducer = (state, action) => {
-    switch (action.type) {
-      case "login":
-        authUser(state);
-        console.log("state como argumento a auth", state);
-        console.log("state:", state);
-        console.log("action:", action.payload);
-        return action.payload;
-      default:
-        throw new Error();
-    }
+  const initialState = {
+    email: "",
+    password: "",
   };
 
-  const authUser = async (state) => {
-    const { email, password } = state;
+  const [stateInput, setStateInput] = useState(initialState);
+  const [users, setUsers] = useState([]);
+
+  const authUser = async (stateInput) => {
+    console.log(stateInput);
+    const { email, password } = stateInput;
+    // console.log("credenciales recibidas: ", stateInput);
+    // console.log("credenciales desestructuradas: ", email, password);
     await axios({
-      method: "get",
-      url: `http://192.168.1.80:5000/api/v1/users?email=${email}&password=${password}`,
+      method: "post",
+      url: `http://192.168.1.80:5000/api/v1/auth/login`,
+      data: { ...stateInput },
+      config: { headers: { "Content-Type": "application/json" } },
     })
       .then((response) => {
-        setUsers(response.data.data);
-        // console.log("password como argumento:", password);
-        // console.log("email como argumento:", email);
-        {
-          if (
-            state.email === response.data.data[0].email &&
-            state.password === response.data.data[0].password
-          ) {
-            console.log("---USUARIO LOGEADO--");
-            console.log(response.data.data[0].email);
-            console.log(response.data.data[0].password);
-            console.log("admin:", users[0].admin);
-          } else {
-            console.log("CREDENCIALES NO VALIDAS!");
-          }
+        if (response.data.admin) {
+          navigation.navigate("HomeTabScreenAdmin", {
+            credenciales: stateInput,
+          });
+        } else {
+          console.log("You are not admin!");
+          navigation.navigate("HomeTabScreen");
         }
       })
       .catch((error) => {
-        console.log("Error Login", error);
+        // console.log("Error: ", error);
+        console.log("Credentials not valid");
       });
   };
 
-  const handleLogin = (loginCredentials) => {
-    const action = {
-      type: "login",
-      payload: loginCredentials,
-    };
-    dispatch(action);
-  };
+  // const initialState = [
+  //   {
+  //     email: "",
+  //     password: "",
+  //   },
+  // ];
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  // const reducer = (state, action) => {
+  //   switch (action.type) {
+  //     case "login":
+  //       console.log("state:", state);
+  //       authUser(state);
+  //       setStateInput(state);
+  //       return action.payload;
+  //     default:
+  //       throw new Error();
+  //   }
+  // };
 
-  // console.log("email antes de entrar al if", state.email);
-  // console.log("email antes de entrar al if", users[0].email);
-  // console.log("password antes de entrar al if", state.password);
-  // console.log("password antes de entrar al if", users[0].password);
+  // const authUser = async (state) => {
+  //   const { email, password } = state;
+  //   await axios({
+  //     method: "get",
+  //     // url: `http://192.168.1.80:5000/api/v1/users?email=camoham@gmail.com&password=2uw7123`,
+  //     url: `http://192.168.1.80:5000/api/v1/users?email=${email}&password=${password}`,
+  //   })
+  //     .then((response) => {
+  //       // console.log("response", response.data.data[0]);
+  //       setUsers(response.data.data);
+  //       let objectLenght = Object.keys(users).length;
+  //       if (objectLenght >= 1) {
+  //         console.log(`
+  //         ----User Logged----
+  //         email:${email}
+  //         password:${password}
+  //         -------------------
+  //         `);
+  //       } else {
+  //         console.log("Credentials error!!!");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log("Error: ", error);
+  //     });
+  // };
+
+  // const handleLogin = (loginCredentials) => {
+  //   const action = {
+  //     type: "login",
+  //     payload: loginCredentials,
+  //   };
+  //   dispatch(action);
+  // };
+
+  // const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <View style={styles.container}>
@@ -92,7 +119,7 @@ export default function LoginScreen({ navigation }) {
             />
           </View>
           <Text style={styles.titleTextApp}>Welcome to Quaver!</Text>
-          <Text style={styles.loginTitleText}>Sing in</Text>
+          <Text style={styles.loginTitleText}>Sign in</Text>
           <View style={styles.hr}></View>
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>Email Adress</Text>
@@ -100,6 +127,10 @@ export default function LoginScreen({ navigation }) {
               style={styles.input}
               keyboardType="email-address"
               textContentType="emailAddress"
+              value={stateInput.email}
+              onChangeText={(email) =>
+                setStateInput({ ...stateInput, email: email })
+              }
             />
           </View>
           <View style={styles.inputBox}>
@@ -108,20 +139,21 @@ export default function LoginScreen({ navigation }) {
               style={styles.input}
               secureTextEntry={true}
               textContentType="password"
+              value={stateInput.password}
+              onChangeText={(password) =>
+                setStateInput({ ...stateInput, password: password })
+              }
             />
           </View>
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => navigation.navigate("HomeTabScreen")}
+            // onPress={() =>
+            //   navigation.navigate("ManageScreen", { credenciales: "Hola" })
+            // }
           >
             <Text
               style={styles.loginButtonText}
-              onPress={() =>
-                handleLogin({
-                  password: "1234",
-                  email: "caesar@gmail.com",
-                })
-              }
+              onPress={() => authUser(stateInput)}
             >
               Sign in
             </Text>

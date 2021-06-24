@@ -1,12 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { View } from "react-native";
-import {
-  Text,
-  ListItem,
-  Avatar,
-  Icon,
-  Header,
-} from "react-native-elements";
+import { Text, ListItem, Avatar, Icon, Header } from "react-native-elements";
 import { ScrollView } from "react-native";
 
 import { quaverApi } from "../../../api/quaverApi";
@@ -41,6 +35,9 @@ const ManageUsersScreen = ({ navigation }) => {
               />
             }
             centerComponent={{ text: "Manage Users", style: { color: "#fff" } }}
+            containerStyle={{
+              backgroundColor: "#000",
+            }}
           />
           <View style={{ flex: 1 }}>
             {users.map((user) => (

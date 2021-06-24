@@ -11,7 +11,8 @@ import ManageScreen from "./ManageScreen";
 
 const Tab = createBottomTabNavigator();
 
-const HomeTabScreenAdmin = () => {
+const HomeTabScreenAdmin = ({ navigation, route }) => {
+  console.log(route.params.credenciales);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -41,10 +42,14 @@ const HomeTabScreenAdmin = () => {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Play" component={PlayingScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Play" component={PlayingScreen} />
       <Tab.Screen name="Discover Music" component={DiscoverMusicScreen} />
-      <Tab.Screen name="Manage" component={ManageScreen} />
+      <Tab.Screen
+        name="Manage"
+        component={ManageScreen}
+        initialParams={route.params.credenciales}
+      />
     </Tab.Navigator>
   );
 };

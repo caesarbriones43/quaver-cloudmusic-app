@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { View, ScrollView } from "react-native";
+import { TouchableOpacity } from "react-native";
+import { View, ScrollView, StyleSheet } from "react-native";
 import { Text, ListItem, Avatar, Icon, Header } from "react-native-elements";
 
 import { quaverApi } from "../../../api/quaverApi";
@@ -37,6 +38,9 @@ const ManageGenresScreen = ({ navigation }) => {
               text: "Manage Genres",
               style: { color: "#fff" },
             }}
+            containerStyle={{
+              backgroundColor: "#000",
+            }}
           />
           <View style={{ flex: 1 }}>
             {genres.map((genre) => (
@@ -56,9 +60,44 @@ const ManageGenresScreen = ({ navigation }) => {
             ))}
           </View>
         </View>
+        <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop:20}}>
+          <TouchableOpacity
+            style={styles.appButtonContainerCreate}
+            onPress={() => {
+              navigation.navigate("CreateGenreScreen");
+            }}
+          >
+            <Text style={styles.appButtonEdit}>Create genre</Text>
+          </TouchableOpacity>
+        </View>
       </ScrollView>
     </Fragment>
   );
 };
+
+const styles = StyleSheet.create({
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#009688",
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  appButtonContainerCreate: {
+    backgroundColor: "#000",
+    paddingVertical: 10,
+    paddingHorizontal: 12,
+  },
+  appButtonEdit: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase",
+  },
+  appButtonSpace: {
+    padding: 5,
+  },
+});
 
 export default ManageGenresScreen;

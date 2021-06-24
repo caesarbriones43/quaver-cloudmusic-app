@@ -106,6 +106,9 @@ const MangeUserScreen = ({
             text: `Manage: ${user.name}`,
             style: { color: "#fff" },
           }}
+          containerStyle={{
+            backgroundColor: "#000",
+          }}
         />
         <View
           style={{
@@ -220,11 +223,12 @@ const MangeUserScreen = ({
             }}
           ></View>
         </View>
-        <View>
+        <View style={{ padding: 25 }}>
           <TouchableOpacity
             style={styles.appButtonContainer}
             onPress={() => {
-              updateUserById(_id, state);
+              updateUserById(_id, state) &&
+                navigation.navigate("HomeTabScreenAdmin");
             }}
           >
             <Text style={styles.appButton}>Edit</Text>
@@ -233,17 +237,10 @@ const MangeUserScreen = ({
           <TouchableOpacity
             style={styles.appButtonContainerDelete}
             onPress={() => {
-              deleteGenreById(_id);
+              deleteUserById(_id) && navigation.navigate("HomeTabScreenAdmin");
             }}
           >
-            <Text
-              style={styles.appButton}
-              onPress={() => {
-                deleteUserById(_id);
-              }}
-            >
-              Delete
-            </Text>
+            <Text style={styles.appButton}>Delete User</Text>
           </TouchableOpacity>
         </View>
       </View>

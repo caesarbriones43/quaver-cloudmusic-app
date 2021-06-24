@@ -41,8 +41,8 @@ const HomeTabScreen = () => {
         inactiveTintColor: "gray",
       }}
     >
-      <Tab.Screen name="Play" component={PlayingScreen} />
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Play" component={PlayingScreen} />
       <Tab.Screen name="Discover Music" component={DiscoverMusicScreen} />
       {/* <Tab.Screen name="Manage" component={ManageScreen} /> */}
     </Tab.Navigator>

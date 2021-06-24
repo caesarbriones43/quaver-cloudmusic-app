@@ -13,6 +13,16 @@ import ManageUsersScreen from "./src/components/pages/private/ManageUsersScreen"
 import MangeUserScreen from "./src/components/pages/private/MangeUserScreen";
 import ManageGenresScreen from "./src/components/pages/private/ManageGenresScreen";
 import ManageGenreScreen from "./src/components/pages/private/ManageGenreScreen";
+import ManageArtistsScreen from "./src/components/pages/private/ManageArtistsScreen";
+import ManageArtistScreen from "./src/components/pages/private/ManageArtistScreen";
+import ManageAlbumsScreen from "./src/components/pages/private/ManageAlbumsScreen";
+import ManageTracksScreen from "./src/components/pages/private/ManageTracksScreen";
+import CreateGenreScreen from "./src/components/pages/private/CreateGenreScreen";
+import CreateArtistScreen from "./src/components/pages/private/CreateArtistScreen";
+import CreateAlbumScreen from "./src/components/pages/private/CreateAlbumScreen";
+import ManageAlbumScreen from "./src/components/pages/private/ManageAlbumScreen";
+import ManageTrackScreen from "./src/components/pages/private/ManageTrackScreen";
+import CreateTrackScreen from "./src/components/pages/private/CreateTrackScreen";
 
 const Stack = createStackNavigator();
 
@@ -45,6 +55,46 @@ export default function App() {
           <Stack.Screen
             name="ManageGenreScreen"
             component={ManageGenreScreen}
+          />
+          <Stack.Screen
+            name="ManageArtistsScreen"
+            component={ManageArtistsScreen}
+          />
+          <Stack.Screen
+            name="ManageArtistScreen"
+            component={ManageArtistScreen}
+          />
+          <Stack.Screen
+            name="ManageAlbumsScreen"
+            component={ManageAlbumsScreen}
+          />
+          <Stack.Screen
+            name="ManageTracksScreen"
+            component={ManageTracksScreen}
+          />
+          <Stack.Screen
+            name="CreateGenreScreen"
+            component={CreateGenreScreen}
+          />
+          <Stack.Screen
+            name="CreateArtistScreen"
+            component={CreateArtistScreen}
+          />
+          <Stack.Screen
+            name="CreateAlbumScreen"
+            component={CreateAlbumScreen}
+          />
+          <Stack.Screen
+            name="ManageAlbumScreen"
+            component={ManageAlbumScreen}
+          />
+          <Stack.Screen
+            name="ManageTrackScreen"
+            component={ManageTrackScreen}
+          />
+          <Stack.Screen
+            name="CreateTrackScreen"
+            component={CreateTrackScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

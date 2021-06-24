@@ -1,26 +1,32 @@
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { Header, Icon, Avatar, Divider, Input } from "react-native-elements";
+import {
+  Header,
+  Icon,
+  Avatar,
+  Divider,
+  Input,
+  Button,
+} from "react-native-elements";
 import axios from "axios";
 import { quaverApi } from "../../../api/quaverApi";
 
-const ManageGenreScreen = ({
+const ManageArtistScreen = ({
   navigation,
   route: {
-    params: { genres },
+    params: { artists },
   },
 }) => {
-  const [state, setState] = useState(genres);
+  const [state, setState] = useState(artists);
+  const { artist, artistUrl, _id, genre } = artists;
+  const { idGenre, nameGenre } = genre;
 
-  const { genre, _id, created_at, updated_at, genreUrl } = state;
+  console.log("genre", nameGenre);
 
-  console.log("Estado a mandar:", genre);
-  console.log(_id);
-
-  const updateGenreById = async (_id, state) => {
+  const updateArtistById = async (_id, state) => {
     await axios({
       method: "put",
-      url: `http://192.168.1.80:5000/api/v1/genres/${_id}`,
+      url: `http://192.168.1.80:5000/api/v1/artists/${_id}`,
       data: { ...state },
       config: { headers: { "Content-Type": "application/json" } },
     })
@@ -33,10 +39,10 @@ const ManageGenreScreen = ({
       });
   };
 
-  const deleteGenreById = async (_id) => {
-    const resp = await quaverApi.delete(`/genres/${_id}`);
+  const deleteArtist = async (_id) => {
+    const resp = await quaverApi.delete(`/artists/${_id}`);
     setState(resp.data.data);
-    console.log(`Deleting user whit id:${_id}`);
+    console.log(`Deleting artist whit id:${_id}`);
   };
 
   return (
@@ -46,7 +52,7 @@ const ManageGenreScreen = ({
           <Icon name="arrow-back-outline" type="ionicon" color="#fff" />
         }
         centerComponent={{
-          text: `Manage: ${genres.genre}`,
+          text: `Manage: ${artists.artist}`,
           style: { color: "#fff" },
         }}
         containerStyle={{
@@ -64,68 +70,69 @@ const ManageGenreScreen = ({
           rounded
           size="xlarge"
           source={{
-            uri: state.genreUrl,
+            uri: artistUrl,
           }}
         />
-        <Text style={{ fontSize: 18 }}>{genres.genre}</Text>
+        <Text style={{ fontSize: 18 }}>{artist}</Text>
       </View>
       <Divider />
       <View>
         <Input
           style={{ color: "#808080" }}
-          value={state.genre}
+          value={state?.artist}
           leftIcon={<Icon type="ionicon" name="disc" size={24} color="black" />}
-          label="Genre"
-          onChangeText={(genre) => setState({ ...state, genre: genre })}
+          label="Artist Name"
+          onChangeText={(artist) => setState({ ...state, artist: artist })}
         />
         <Input
           style={{ color: "#808080" }}
-          value={state.genreUrl}
+          value={state?.artistUrl}
           leftIcon={<Icon type="ionicon" name="disc" size={24} color="black" />}
-          label="Genre Url"
-          onChangeText={(genreUrl) =>
-            setState({ ...state, genreUrl: genreUrl })
+          label="Artist Url"
+          onChangeText={(artistUrl) =>
+            setState({ ...state, artistUrl: artistUrl })
           }
         />
         <Input
-          disabled
           style={{ color: "#808080" }}
-          value={state.created_at}
-          leftIcon={
-            <Icon type="ionicon" name="calendar" size={24} color="black" />
+          value={state.genre?.nameGenre}
+          leftIcon={<Icon type="ionicon" name="disc" size={24} color="black" />}
+          label="nameGenre"
+          onChangeText={(nameGenre) =>
+            setState({
+              ...state,
+              genre: { ...state.genre, nameGenre: nameGenre },
+            })
           }
-          label="Created"
-          onChangeText={(genre) => setState({ ...state, genre: genre })}
         />
         <Input
-          disabled
           style={{ color: "#808080" }}
-          value={state.updated_at}
-          leftIcon={
-            <Icon type="ionicon" name="calendar" size={24} color="black" />
+          value={state.genre?.idGenre}
+          leftIcon={<Icon type="ionicon" name="key" size={24} color="black" />}
+          label="idGenre"
+          onChangeText={(idGenre) =>
+            setState({ ...state, genre: { ...state.genre, idGenre: idGenre } })
           }
-          label="Updated"
-          onChangeText={(genre) => setState({ ...state, genre: genre })}
         />
       </View>
       <View style={{ padding: 25 }}>
         <TouchableOpacity
           style={styles.appButtonContainer}
           onPress={() => {
-            updateGenreById(_id, state) &&
+            updateArtistById(_id, state) &&
               navigation.navigate("HomeTabScreenAdmin");
           }}
         >
-          <Text style={styles.appButtonEdit}>Edit</Text>
+          <Text style={styles.appButton}>Edit</Text>
         </TouchableOpacity>
         <View style={styles.appButtonSpace}></View>
         <TouchableOpacity
           style={styles.appButtonContainerDelete}
           onPress={() => {
-            deleteGenreById(_id) && navigation.navigate("HomeTabScreenAdmin");
+            deleteArtist(_id) && navigation.navigate("HomeTabScreenAdmin");
           }}
         >
-          <Text style={styles.appButtonEdit}>Delete</Text>
+          <Text style={styles.appButton}>Delete User</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -147,7 +154,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 12,
   },
-  appButtonEdit: {
+  appButton: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
@@ -159,4 +166,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ManageGenreScreen;
+export default ManageArtistScreen;

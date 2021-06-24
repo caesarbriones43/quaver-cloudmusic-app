@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,43 @@ import {
 } from "react-native";
 import LottieView from "lottie-react-native";
 
+import axios from "axios";
 export default function LoginScreen({ navigation }) {
+  const initialState = {
+    // admin: false,
+    // active: true,
+    name: "",
+    username: "",
+    email: "",
+    password: "",
+    // created_at: "",
+    // updated_at: "",
+  };
+
+  const [stateInput, setStateInput] = useState(initialState);
+
+  const { name, username, email } = stateInput;
+
+  const registerUser = async (stateInput) => {
+    console.log(stateInput);
+    const { email, password } = stateInput;
+    await axios({
+      method: "post",
+      url: `http://192.168.1.80:5000/api/v1/users/`,
+      // url: `http://192.168.1.80:5000/api/v1/auth/register`,
+      data: { ...stateInput },
+      config: { headers: { "Content-Type": "application/json" } },
+    })
+      .then((response) => {
+        setStateInput(response.data.data);
+        console.log("User Register succesfuly!", response.data.data);
+        navigation.navigate("HomeTabScreen");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.bigCircle}></View>
@@ -28,18 +64,36 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.hr}></View>
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>Name</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={stateInput.name}
+              textContentType="givenName"
+              onChangeText={(name) =>
+                setStateInput({ ...stateInput, name: name })
+              }
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>Username</Text>
-            <TextInput style={styles.input} />
+            <TextInput
+              style={styles.input}
+              value={stateInput.username}
+              textContentType="nickname"
+              onChangeText={(username) =>
+                setStateInput({ ...stateInput, username: username })
+              }
+            />
           </View>
           <View style={styles.inputBox}>
             <Text style={styles.inputLabel}>Email Adress</Text>
             <TextInput
               style={styles.input}
               keyboardType="email-address"
-              //   textContentType="text"
+              value={stateInput.email}
+              textContentType="emailAddress"
+              onChangeText={(email) =>
+                setStateInput({ ...stateInput, email: email })
+              }
             />
           </View>
           <View style={styles.inputBox}>
@@ -48,11 +102,19 @@ export default function LoginScreen({ navigation }) {
               style={styles.input}
               secureTextEntry={true}
               textContentType="password"
+              value={stateInput.password}
+              onChangeText={(password) =>
+                setStateInput({ ...stateInput, password: password })
+              }
             />
           </View>
           <TouchableOpacity
             style={styles.loginButton}
-            onPress={() => navigation.navigate("HomeTabScreenAdmin")}
+            // onPress={() => navigation.navigate("HomeTabScreenAdmin")}
+            onPress={() => {
+              registerUser(stateInput);
+              //   navigation.navigate("HomeTabScreen");
+            }}
           >
             <Text style={styles.loginButtonText}>Sing up</Text>
           </TouchableOpacity>
